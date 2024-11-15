@@ -1,0 +1,34 @@
+[
+  {
+    "menu_id": 1,
+    "menu_code": "home",
+    "menu_icon": "HomeOutlined",
+    "menu_name": "Home",
+    "c_path": "/",
+    "parent_id": null
+  },
+  {
+    "menu_id": 2,
+    "menu_code": "products",
+    "menu_icon": "FolderOpenOutlined",
+    "menu_name": "Products",
+    "c_path": "/dashboard/products",
+    "parent_id": null
+  },
+  {
+    "menu_id": 3,
+    "menu_code": "sales",
+    "menu_icon": "LineChartOutlined",
+    "menu_name": "Sales",
+    "c_path": "/dashboard/sales",
+    "parent_id": null
+  },
+  {
+    "menu_id": 4,
+    "menu_code": "settings",
+    "menu_icon": "SettingOutlined",
+    "menu_name": "Settings",
+    "c_path": "/dashboard/settings",
+    "parent_id": null
+  }
+]
