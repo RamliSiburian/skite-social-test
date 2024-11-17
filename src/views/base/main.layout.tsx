@@ -6,7 +6,6 @@ import {
   Breadcrumb,
   Col,
   Layout,
-  Popover,
   Row,
   Typography,
   theme
@@ -15,37 +14,29 @@ import { Icons } from '@afx/components/icons'
 import { buildTreeData } from '@afx/utils/parse.util'
 import { LynxIHamburger } from '@afx/components/icon-hamburger/icon-hamburger'
 import { usePathname, useRouter } from 'next/navigation'
-import moment from 'moment'
-import { ButtonRounded } from '@afx/components/button/button-rounded'
 import LynxStorages from '@afx/utils/storage.util'
 import Menus from './sider/menu.layout'
-import { useLynxStore } from '@lynx/store/core'
-import LoaderImages from '@afx/components/images/image-loader.layout'
 import { WindowWidth } from '@afx/components/window-width/window-width'
-import { IActionAuth, IStateAuth } from '@lynx/models/main/auth.model'
 import ListMenu from '@lynx/mock-data/list-menu.json'
 export interface IPortals {
   children: any,
 }
-
-const Text = Typography
 const { Header, Content, Sider } = Layout
 export default function Portal(props: IPortals): React.JSX.Element {
   const windowWidth: number = WindowWidth()
   const pathname = usePathname()
   const router = useRouter()
-  const { state, useActions: authState } = useLynxStore<
-    IStateAuth,
-    IActionAuth
-  >('auth')
+  const [user, setUser] = useState<string>('')
+  useEffect(() => {
+    const user = LynxStorages.getItem('@UUSER', true, true).data[0] as any
+    setUser(user?.name)
+  }, [])
 
   useEffect(() => {
     if (pathname === '/dashboard') {
       router.push('/dashboard/home')
     }
   }, [pathname])
-
-
 
   const parts = pathname
     .replace('/dashboard', '')
@@ -86,10 +77,6 @@ export default function Portal(props: IPortals): React.JSX.Element {
     setListMenus(dataTree)
   }, [ListMenu])
 
-  const logOut = () => {
-    LynxStorages.dropAll()
-    router.push('/auth/login')
-  }
   useEffect(() => {
     if (windowWidth <= 768) {
       setCollapsed(true)
@@ -133,7 +120,7 @@ export default function Portal(props: IPortals): React.JSX.Element {
           }}
         >
           {collapsed ?
-            <div onClick={() => setCollapsed(false)} className="cursor-pointer">
+            <div onClick={() => windowWidth >= 990 ? setCollapsed(false) : {}} className="cursor-pointer">
               <Badge count={1} size="small" offset={[12, 8]}>
                 <Avatar shape="circle" size="default" className="bg-secondary-color-300 border-[2px] border-white" />
               </Badge>
@@ -161,40 +148,75 @@ export default function Portal(props: IPortals): React.JSX.Element {
         </div>
       </Sider>
       <Layout className="overflow-y-hidden h-screen">
-        <Col>
-          <Header
-            style={{
-              background: colorBgContainer
-            }}
-            className={`p-0 py-3 flex  border-b-[0.5px] border-[#E2E2E2] `}
-          >
-            {!collapsed && (
-              <div className="w-9">
-                <LynxIHamburger
-                  onClick={() => setCollapsed(!collapsed)}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: '4px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    color: 'red'
+        <Row>
+          <Col xs={24} sm={24} md={0} xl={0}>
+            <Header
+              style={{
+                background: colorBgContainer
+              }}
+              className={` p-0 py-3 flex justify-between pr-5  border-b-[0.5px] border-[#E2E2E2] `}
+            >
+              {collapsedWidth !== 0 && (
+                <div className="w-9">
+                  <LynxIHamburger
+                    onClick={() => setCollapsedWidth(0)}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '4px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      color: 'red'
+                    }}
+                  />
+                </div>
+              )}
+              {collapsedWidth === 0 && (
+                <div
+                  className="w-9 ml-4 mt-[-8px] "
+                  onClick={() => {
+                    setCollapsedWidth(80)
                   }}
-                />
-              </div>
-            )}
-            {collapsedWidth === 0 && collapsed && (
-              <div
-                className="w-9 ml-4 mt-[-8px] "
-                onClick={() => {
-                  setCollapsedWidth(80)
-                }}
-              >
-                <Icons type="MenuUnfoldOutlined" size={24} />
-              </div>
-            )}
-            <Row className="w-full px-10 md:ps-4 md:pr-10 items-center">
-              <Col lg={18} md={20} sm={18} xs={20}>
+                >
+                  <Icons type="MenuUnfoldOutlined" size={24} />
+                </div>
+              )}
+              <Icons type="UserOutlined" size={20} />
+            </Header>
+          </Col>
+          <Col xs={0} sm={0} md={24} xl={24}>
+            <Header
+              style={{
+                background: colorBgContainer
+              }}
+              className={`p-0 py-3 flex  border-b-[0.5px] border-[#E2E2E2] `}
+            >
+              {!collapsed && (
+                <div className="w-9">
+                  <LynxIHamburger
+                    onClick={() => setCollapsed(!collapsed)}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: '4px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      color: 'red'
+                    }}
+                  />
+                </div>
+              )}
+              {collapsedWidth === 0 && collapsed && (
+                <div
+                  className="w-9 ml-4 mt-[-8px] "
+                  onClick={() => {
+                    setCollapsedWidth(80)
+                  }}
+                >
+                  <Icons type="MenuUnfoldOutlined" size={24} />
+                </div>
+              )}
+              <Row className="w-full px-10 md:ps-4 md:pr-10 items-center justify-between">
                 <Breadcrumb
                   separator=" "
                   items={finParts?.map((item, index) => ({
@@ -203,24 +225,26 @@ export default function Portal(props: IPortals): React.JSX.Element {
                   }))}
                   className="text-xs md:text-sm"
                 />
-              </Col>
-              <Col lg={6} md={4} sm={6} xs={4} className="flex justify-end gap-3">
-                <Icons type="UserOutlined" size={20} />
-                <Typography className="text-2xl text-secondary-color-300 font-medium underline">Jhon Doe</Typography>
-              </Col>
-            </Row>
-          </Header>
-          <Content
-            style={{
-              height: '93vh',
-              background: '#E7F5FD',
-              overflowX: 'hidden',
-              overflowY: 'scroll'
-            }}
-          >
-            {props.children}
-          </Content>
-        </Col>
+                <div className="flex justify-end gap-3">
+                  <Icons type="UserOutlined" size={20} />
+                  <Typography className="text-2xl text-secondary-color-300 font-medium underline">{user}</Typography>
+                </div>
+              </Row>
+            </Header>
+          </Col>
+          <Col span={24}>
+            <Content
+              style={{
+                height: '93vh',
+                background: '#E7F5FD',
+                overflowX: 'hidden',
+                overflowY: 'scroll'
+              }}
+            >
+              {props.children}
+            </Content>
+          </Col>
+        </Row>
       </Layout>
     </Layout>
   )

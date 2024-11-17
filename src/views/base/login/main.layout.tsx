@@ -5,16 +5,16 @@ import RegexText from '@afx/utils/regex.util'
 import { useRouter } from 'next/navigation'
 import { useLynxStore } from '@lynx/store/core'
 import { IActionAuth, IStateAuth } from '@lynx/models/main/auth.model'
-import { IPayloadLoginByEmail } from '@afx/interfaces/main/auth.iface'
 import { useLayoutEffect } from 'react'
 import LynxStorages from '@afx/utils/storage.util'
+import { IPayloadLogin } from "@afx/interfaces/main/auth.iface"
 
 export default function Login(): React.JSX.Element {
   const router = useRouter()
   const { isLoading, useActions } = useLynxStore<IStateAuth, IActionAuth>(
     'auth'
   )
-  const [form] = Form.useForm<IPayloadLoginByEmail>()
+  const [form] = Form.useForm<IPayloadLogin>()
   const LOADINGS = isLoading('loginAdmin') || false
 
   const token = LynxStorages.getItem('@UTOKEN').data[0]

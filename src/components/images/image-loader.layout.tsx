@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { CSSProperties, useEffect, useState } from 'react';
-import { Icons } from '../icons';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 const noImage = require('@lynx/assets/images/NoImage.svg').default;

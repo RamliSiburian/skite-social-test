@@ -59,7 +59,12 @@ export default async function request<T = any, R = any>({
         responseType,
         ...extendedItems
       })
-      .then(response => resolve(response.data))
+      .then(response => response?.data === 'access danied!' ?
+        globalThis.window.location.replace(
+          `${window.location.origin}/auth/login`
+        ) :
+        resolve(response?.data)
+      )
       .catch(error => {
         const msg = error?.response?.data?.meta
         const newMsg = []

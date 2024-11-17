@@ -8,6 +8,7 @@ interface IDragDrop {
   inputRef: any
   handleChangeInput: any
   OpenFile: any
+  images: any
 }
 
 /**
@@ -40,9 +41,11 @@ export default function LynxDragDrop(props: IDragDrop): React.JSX.Element {
     setDragActive(true)
   }
 
+
+
   return (
     <div
-      className="relative w-full border-2 border-dashed border-[#E2E2E2] bg-[#FAFAFA] rounded-xl p-16 text-center"
+      className="relative w-full  rounded-xl p-16 text-center"
       onDragEnter={handleDragEnter}
       onDrop={props.handleDrop}
       onDragLeave={handleDragLeave}
@@ -60,13 +63,12 @@ export default function LynxDragDrop(props: IDragDrop): React.JSX.Element {
         }}
       />
       <Space direction="vertical" align="center" size={0}>
-        <Image src={DragDrop} alt="upload" className="mb-2" />
-        <Text>Drag & drop image here or</Text>
+        <Image src={typeof props?.images !== 'string' ? URL.createObjectURL(props?.images) : DragDrop} alt="upload" className="mb-3" width={100} height={100} />
         <Text
-          className="text-[#2191FB] cursor-pointer text-sm"
+          className="text-[#2191FB] cursor-pointer text-sm underline"
           onClick={props.OpenFile}
         >
-          Upload file
+          Upload image here
         </Text>
       </Space>
     </div>

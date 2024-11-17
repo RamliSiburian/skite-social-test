@@ -37,7 +37,7 @@ export default function BrowseHome() {
           }
         />
       </Col>
-      <Col span={8}>
+      <Col xs={24} md={12} xl={8}>
         <CardCustom
           className="rounded-xl"
           children={
@@ -51,7 +51,6 @@ export default function BrowseHome() {
                     { label: 'All times', value: '' },
                     { label: 'This Week', value: 'this week' },
                   ]}
-                  className="min-w-[156px]"
                 />
               </div>
 

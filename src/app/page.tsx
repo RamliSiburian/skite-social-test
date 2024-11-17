@@ -7,6 +7,7 @@ export default function LoadingScreenPage() {
   const token = LynxStorages.getItem('@UTOKEN')?.data[0]
   const router = useRouter()
 
+
   useLayoutEffect(() => {
     if (token === null) {
       return router.replace('/auth/login')

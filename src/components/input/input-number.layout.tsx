@@ -25,16 +25,10 @@ export default function LynxInputNumber(
 ): React.JSX.Element {
   const { standart, ...others } = props
   const standartLayouts = {
-    className: 'form-input w-full gap-x-1.5',
-    style: { width: '100%' },
-    styles: {
-      input: {
-        backgroundColor: '#FAFAFA',
-        color: '#353535',
-        border: '1px solid #FAFAFA',
-        fontSize: '16px'
-      }
-    }
+    className: `${props?.disabled ? 'custom-disabled-input' : ''
+      }' form-input !bg-[#FAFAFA] gap-x-1.5 hover:!bg-[#FAFAFA]' ${props.className
+      }`,
+    style: { border: '#CAECFF', fontSize: '17px' }
   }
 
   return (
@@ -58,15 +52,12 @@ export default function LynxInputNumber(
         prefix={props.prefix as any}
         addonBefore={props.addOnBefore as any}
         addonAfter={props.suffix as any}
-        {...(typeof standart !== 'boolean' || standart
-          ? standartLayouts
-          : { className: 'w-full' })}
+        {...(typeof standart !== 'boolean' || standart ? standartLayouts : {})}
         formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         parser={value => value!.replace(/\$\s?|(\,*)/g, '')}
         onPressEnter={(v: any) => props.onPressEnter?.(v.target.value)}
         disabled={props.disabled}
         placeholder={props.placeholder}
-        className={`!bg-[#FAFAFA] focus:!bg-[#FAFAFA] hover:!bg-[#FAFAFA] border-none ${props.className}`}
         controls={props?.controls}
         min={0}
         max={props?.max || undefined}

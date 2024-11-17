@@ -34,12 +34,10 @@ export default function LynxInput(props: IInput): React.JSX.Element {
   const { standart, ...others } = props
 
   const standartLayouts = {
-    className: `${
-      props?.disabled ? 'custom-disabled-input' : ''
-    }' form-input !bg-[#FAFAFA] gap-x-1.5 hover:!bg-[#FAFAFA]' ${
-      props.className
-    }`,
-    style: { border: 'none', fontSize: '17px' }
+    className: `${props?.disabled ? 'custom-disabled-input' : ''
+      }' form-input !bg-[#FAFAFA] gap-x-1.5 hover:!bg-[#FAFAFA]' ${props.className
+      }`,
+    style: { border: '#CAECFF', fontSize: '17px' }
   }
 
   return (

@@ -19,7 +19,7 @@ const nextConfig = {
   },
   distDir: 'dist',
   images: {
-    domains: []
+    domains: ['m.media-amazon.com','cdn.7tv.app']
   },
   env: {
     STORAGE_ENCRYPTION_KEY: '',
